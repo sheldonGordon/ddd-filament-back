@@ -1,6 +1,7 @@
 package fr.chatelain.filament.account;
 
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -17,5 +18,10 @@ public class AccountApplication {
 	@Bean
 	public Hibernate5Module datatypeHibernateModule(){
 		return new Hibernate5Module();
+	}
+
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 }

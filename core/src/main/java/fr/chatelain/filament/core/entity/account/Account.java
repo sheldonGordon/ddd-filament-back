@@ -5,6 +5,7 @@ import fr.chatelain.filament.core.entity.printer.Printer;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -14,19 +15,19 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Account extends AbstractEntities {
     @Column(unique = true, nullable = false, length = 20)
-    String aliasName;
+    private String aliasName;
     @Column(nullable = false, length = 50)
-    String firstName;
+    private String firstName;
     @Column(nullable = false, length = 50)
-    String lastName;
+    private String lastName;
     @Transient
-    List<Printer> listPrinter;
+    private HashSet<Printer> listPrinter;
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "list_printer", joinColumns = @JoinColumn(name = "account_id"))
     @Column(name = "printer_id")
-    List<String> listIdPrinter;
+    private List<String> listIdPrinter;
 
-    public Account(String aliasName, String firstName, String lastName, List<Printer> listPrinter) {
+    public Account(String aliasName, String firstName, String lastName, HashSet<Printer> listPrinter) {
         this.aliasName = aliasName;
         this.firstName = firstName;
         this.lastName = lastName;
