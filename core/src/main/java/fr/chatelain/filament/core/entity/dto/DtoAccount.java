@@ -3,6 +3,7 @@ package fr.chatelain.filament.core.entity.dto;
 import lombok.Data;
 
 import java.util.HashSet;
+import java.util.List;
 
 @Data
 public class DtoAccount {
@@ -10,5 +11,5 @@ public class DtoAccount {
     private String aliasName;
     private String firstName;
     private String lastName;
-    private HashSet<DtoPrinter> listPrinter;
+    private List<String> listIdPrinter;
 }

@@ -5,7 +5,6 @@ import fr.chatelain.filament.core.entity.printer.Printer;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -20,17 +19,19 @@ public class Account extends AbstractEntities {
     private String firstName;
     @Column(nullable = false, length = 50)
     private String lastName;
+
     @Transient
-    private HashSet<Printer> listPrinter;
+    private List<Printer> listPrinter;
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "list_printer", joinColumns = @JoinColumn(name = "account_id"))
     @Column(name = "printer_id")
     private List<String> listIdPrinter;
 
-    public Account(String aliasName, String firstName, String lastName, HashSet<Printer> listPrinter) {
+    public Account(String aliasName, String firstName, String lastName, List<Printer> listPrinter) {
         this.aliasName = aliasName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.listPrinter = listPrinter;
     }
+
 }

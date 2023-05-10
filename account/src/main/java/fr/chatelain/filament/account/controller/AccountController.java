@@ -5,9 +5,13 @@ import fr.chatelain.filament.core.entity.account.Account;
 import fr.chatelain.filament.core.entity.dto.DtoAccount;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/account")
@@ -21,10 +25,19 @@ public class AccountController {
     private ModelMapper modelMapper;
 
     @GetMapping("/alias/{alias}")
-    public DtoAccount findByAlias(@PathVariable("alias") String alias){
+    public ResponseEntity<DtoAccount> findByAliasName(@PathVariable("alias") String alias){
         System.out.println("La méthode get a été invoquée");
-        Account account = accountService.findByAlias(alias).orElseThrow();
-        return convertToDto(account);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        try {
+            Account account = accountService.findByAliasName(alias).orElseThrow();
+            return new ResponseEntity<>(convertToDto(account),headers, HttpStatus.OK);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping

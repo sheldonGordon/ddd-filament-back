@@ -16,7 +16,15 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
-    public Optional<Account> findByAlias(String alias){
-        return accountRepository.findByAlias(alias);
+    public Optional<Account> findByAliasName(String alias){
+        return accountRepository.findByAliasName(alias);
+    }
+
+    public AccountRepositoryInterface getAccountRepository() {
+        return accountRepository;
+    }
+
+    public void setAccountRepository(AccountRepositoryInterface accountRepository) {
+        this.accountRepository = accountRepository;
     }
 }
