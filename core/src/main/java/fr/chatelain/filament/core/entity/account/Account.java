@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -27,7 +28,8 @@ public class Account extends AbstractEntities {
     @Column(name = "printer_id")
     private List<String> listIdPrinter;
 
-    public Account(String aliasName, String firstName, String lastName, List<Printer> listPrinter) {
+    protected Account(String aliasName, String firstName, String lastName, List<Printer> listPrinter) {
+        super();
         this.aliasName = aliasName;
         this.firstName = firstName;
         this.lastName = lastName;

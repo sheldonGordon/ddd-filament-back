@@ -20,6 +20,10 @@ public class AccountService {
         return accountRepository.findByAliasName(alias);
     }
 
+    public boolean existsAccountByAliasName(String alias){
+        return accountRepository.existsAccountByAliasName(alias);
+    }
+
     public AccountRepositoryInterface getAccountRepository() {
         return accountRepository;
     }

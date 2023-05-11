@@ -1,17 +1,24 @@
 package fr.chatelain.filament.account.controller;
 
+import fr.chatelain.filament.account.dto.DtoBoolean;
 import fr.chatelain.filament.account.service.AccountService;
 import fr.chatelain.filament.core.entity.account.Account;
+import fr.chatelain.filament.core.entity.account.FactoryAccount;
 import fr.chatelain.filament.core.entity.dto.DtoAccount;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/account")
@@ -24,27 +31,35 @@ public class AccountController {
     @Autowired
     private ModelMapper modelMapper;
 
+    private HttpHeaders headers;
+
+    public AccountController() {
+        headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+    }
+
     @GetMapping("/alias/{alias}")
     public ResponseEntity<DtoAccount> findByAliasName(@PathVariable("alias") String alias){
-        System.out.println("La méthode get a été invoquée");
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json");
         try {
             Account account = accountService.findByAliasName(alias).orElseThrow();
             return new ResponseEntity<>(convertToDto(account),headers, HttpStatus.OK);
         }
         catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
         }
     }
 
+    @GetMapping("/alias/{alias}/exists")
+    public ResponseEntity<DtoBoolean> existsAccountByAliasName(@PathVariable("alias") String alias){
+        return new ResponseEntity<>(new DtoBoolean(accountService.existsAccountByAliasName(alias)),headers, HttpStatus.OK);
+    }
+
     @PostMapping
-    public DtoAccount save(@RequestBody DtoAccount dtoAccount){
+    public ResponseEntity<DtoAccount> save(@RequestBody DtoAccount dtoAccount){
         Account account = convertToEntity(dtoAccount);
+        account.setId(UUID.randomUUID().toString());
         DtoAccount accountCreated = convertToDto(accountService.save(account));
-        return accountCreated;
+        return new ResponseEntity<>(accountCreated,headers, HttpStatus.OK);
     }
 
     private DtoAccount convertToDto(Account account) {
