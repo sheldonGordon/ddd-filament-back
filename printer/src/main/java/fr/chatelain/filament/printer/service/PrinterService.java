@@ -13,8 +13,7 @@ public class PrinterService {
     @Autowired
     private PrinterRepositoryInterface printerRepository;
 
-    @Autowired
-    private PictureRepositoryInterface pictureRepository;
+
 
     public Optional<Printer> findById(String id){
         return printerRepository.findById(id);
@@ -30,13 +29,5 @@ public class PrinterService {
 
     public void setPrinterRepository(PrinterRepositoryInterface printerRepository) {
         this.printerRepository = printerRepository;
-    }
-
-    public PictureRepositoryInterface getPictureRepository() {
-        return pictureRepository;
-    }
-
-    public void setPictureRepository(PictureRepositoryInterface pictureRepository) {
-        this.pictureRepository = pictureRepository;
     }
 }

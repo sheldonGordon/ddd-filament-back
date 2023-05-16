@@ -36,4 +36,8 @@ public class Account extends AbstractEntities {
         this.listPrinter = listPrinter;
     }
 
+    public void addIdPrinter(String idPrinter){
+        this.listIdPrinter.add(idPrinter);
+    }
+
 }

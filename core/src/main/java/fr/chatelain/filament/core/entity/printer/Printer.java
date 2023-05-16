@@ -21,11 +21,13 @@ public class Printer extends AbstractEntities {
     private Picture picture;
     @Transient
     private List<Filament> listFilament;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ID_PRINTER", nullable = false)
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "list_filament", joinColumns = @JoinColumn(name = "printer_id"))
+    @Column(name = "filament_id")
     private List<String> listIdFilament;
 
     public Printer(String name, String model, Picture picture, List<Filament> listFilament) {
+        super();
         this.name = name;
         this.model = model;
         this.picture = picture;

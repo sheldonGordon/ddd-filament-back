@@ -59,7 +59,26 @@ public class AccountController {
         Account account = convertToEntity(dtoAccount);
         account.setId(UUID.randomUUID().toString());
         DtoAccount accountCreated = convertToDto(accountService.save(account));
-        return new ResponseEntity<>(accountCreated,headers, HttpStatus.OK);
+        return new ResponseEntity<>(accountCreated,headers, HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<DtoAccount> update(@RequestBody DtoAccount dtoAccount){
+        Account account = convertToEntity(dtoAccount);
+        DtoAccount accountCreated = convertToDto(accountService.save(account));
+        return new ResponseEntity<>(accountCreated,headers, HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{account_id}/printer/{printer_id}")
+    public ResponseEntity<DtoAccount> addPrinterToAccount(@PathVariable("account_id") String idAccount, @PathVariable("printer_id") String idPrinter){
+        try{
+            Account account = accountService.findById(idAccount).orElseThrow();
+            account.addIdPrinter(idPrinter);
+            DtoAccount accountUpdated = convertToDto(accountService.save(account));
+            return new ResponseEntity<>(accountUpdated, headers, HttpStatus.CREATED);
+        }catch (Exception e){
+            return new ResponseEntity<>(headers, HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
     private DtoAccount convertToDto(Account account) {
