@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class DtoFilament {
     private String id;
-    private BrandFilament brand;
+    private DtoBrandFilament brand;
     private double extrusionMultiplier;
     private int bedTemperatureFirstLayer;
     private int bedTemperatureOtherLayer;

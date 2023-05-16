@@ -13,8 +13,6 @@ public class PrinterService {
     @Autowired
     private PrinterRepositoryInterface printerRepository;
 
-
-
     public Optional<Printer> findById(String id){
         return printerRepository.findById(id);
     }
